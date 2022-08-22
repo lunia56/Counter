@@ -1,0 +1,126 @@
+.containerCount{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 25px;
+}
+.container {
+    width: 350px;
+    height: 300px;
+    margin: auto;
+    border: #6DE5FA 3px solid;
+    border-radius: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #292C34;
+}
+
+.count {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 120px;
+    border: #6DE5FA 3px solid;
+    border-radius: 5%;
+    background-color: #6DE5FA;
+    font-size: 5rem;
+    color: #292C34;
+}
+
+.countRed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: crimson;
+    width: 300px;
+    height: 120px;
+    border: #6DE5FA 3px solid;
+    border-radius: 5%;
+    background-color: #6DE5FA;
+    font-size: 5rem;
+}
+
+.spanStyleError {
+    font-size: 35px;
+    color: crimson;
+    margin: auto;
+}
+
+.spanStyle {
+    margin: auto;
+    font-size: 23px;
+    color: #292C34;
+}
+
+.settings {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-around;
+    color: #6DE5FA;
+    width: 300px;
+    height: 120px;
+    border: #6DE5FA 3px solid;
+    border-radius: 5%;
+    background-color: #292C34;
+    font-size: 25px;
+}
+
+.settings_item {
+    display: flex;
+    justify-content: space-around;
+}
+
+.buttons {
+    width: 300px;
+    height: 90px;
+    background-color: #292C34;
+    border: #6DE5FA 3px solid;
+    border-radius: 5%;
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.button {
+    width: auto;
+    height: auto;
+    font-size: 2rem;
+    font-weight: bold;
+    background-color: #6DE5FA;
+    border-radius: 20%;
+    border: #6DE5FA 3px solid;
+    color: #292C34;
+
+}
+
+.input {
+    width: 100px;
+    border: #6DE5FA 3px solid;
+    text-align: center;
+}
+
+.inputError {
+    width: 100px;
+    border: #ea5365 3px solid;
+    background-color: #ea8fa3;
+    text-align: center;
+
+}
+
+.disableButton {
+    width: auto;
+    height: auto;
+    font-size: 2rem;
+    font-weight: bold;
+    background-color: #6DE5FA;
+    border-radius: 20%;
+    border: #6DE5FA 3px solid;
+    color: #292C34;
+    opacity: 10%;
+}
+
