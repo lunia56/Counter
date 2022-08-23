@@ -7,38 +7,54 @@ import SuperCounter from './components/SuperCounter';
 
 
 function App() {
+    /*Максимальное значение счетчика. Начальное значение берется из localStorage*/
+    let [maxCount, setMaxCount] = useState<number>(initialMaxCount)
 
-    let [maxCount, setMaxCount] = useState( initialMaxCount)
-    let [minCount, setMinCount] = useState(initialMinCount)
+    /*Минимальное значение счетчика. начальное значение берется из localStorage*/
+    let [minCount, setMinCount] = useState<number>(initialMinCount)
+
+    /*Состояние ошибки. По умолчанию null, содержин описание ошибки*/
     const [error, setError] = useState<string | null>(null)
-    let [count, setCount] = useState(initialMinCount)
-    const [showCount, setShowCount] = useState(false)
-    const [showSet, setShowSet] = useState(false)
 
-   function initialMinCount(){
+    /*Состояние счетчика. Начальное значение берется из localStorage*/
+    let [count, setCount] = useState<number>(initialMinCount)
+
+    /*Состояние отрисовки счетчика в компоненте  Counter и SuperCounter*/
+    const [showCount, setShowCount] = useState<boolean>(false)
+
+    /*Состояние отрисовки настроек в компоненте SuperCounter*/
+    const [showSet, setShowSet] = useState<boolean>(false)
+
+
+    /*получаем minCount из localStorage*/
+    function initialMinCount(): number {
         let newStartValue = localStorage.getItem('StartValue')
-        if (newStartValue ) {
-            let initialMinCount=JSON.parse(newStartValue)
-            // setCount(initialMinCount)
-           return initialMinCount
+        if (newStartValue) {
+
+            return JSON.parse(newStartValue)
         }
-    }
-    function initialMaxCount() {
-        let newMaxValue = localStorage.getItem('MaxValue')
-        if (newMaxValue ) {
-            let initialMaxCount = JSON.parse(newMaxValue)
-            return initialMaxCount
-        }
+        setCount(initialMinCount())
+        return 0
+
     }
 
+    /*получаем maxCount из localStorage*/
+    function initialMaxCount(): number {
+        let newMaxValue = localStorage.getItem('MaxValue')
+        if (newMaxValue) {
+            return JSON.parse(newMaxValue)
+        }
+        return 5
+    }
+
+    /*при каждом рендере отправляем в localStorage minCount и maxCount*/
     useEffect(() => {
-        if(showCount){
+        if (showCount) {
             localStorage.setItem('StartValue', JSON.stringify(minCount))
             localStorage.setItem('MaxValue', JSON.stringify(maxCount))
         }
-    })
-
-
+    }, [showCount])
+    /*нужно ли указывать зависимость от значений minCount и maxCount?*/
 
 
     const incCount = () => {
@@ -47,11 +63,16 @@ function App() {
     const resetCount = () => {
         count > minCount && setCount(minCount)
     }
+
+    /*Фун-я которая передается обработчику события на кнопку set
+    * при срабатывании устанавливаем: новое начальное значение, скрываем окно с надписью "enter values and press 'set'", и в компоненте SuperCounter скрываем окно настроек  */
     const setCounter = () => {
         !error && setCount(minCount);
         setShowCount(true)
         setShowSet(false)
     }
+
+    /*След 2 Функции изменения макс и мин значения с условием валидности. Висит на обработчике инпута и получает текущий currentTarget.value*/
     const changeMaxCount = (value: number) => {
         if (value <= minCount) {
             setError('Invalid values!')
@@ -97,29 +118,15 @@ function App() {
                           maxCount={maxCount}
                           minCount={minCount}
                           error={error}
+                          showSet={showSet}
+                          setShowSet={setShowSet}
                           incHandler={incCount}
                           resetHandler={resetCount}
                           setCounter={setCounter}
                           changeMinCount={changeMinCount}
                           changeMaxCount={changeMaxCount}
-                          showSet={showSet}
-                          setShowSet={setShowSet}
             />
 
-
-            {/*<div className={style.buttons}>*/}
-            {/*    <Button name={'inc'}*/}
-            {/*            callBack={incCount}*/}
-            {/*            disabled={count >= maxCount}*/}
-            {/*    />*/}
-            {/*    /!*<Button name={'dec'}*!/*/}
-            {/*    /!*        callBack={decCount}*!/*/}
-            {/*    /!*        disabled={count >= (MAXCOUNT + 1) || count === MINCOUNT}/>*!/*/}
-            {/*    <Button name={'reset'}*/}
-            {/*            callBack={resetCount}*/}
-            {/*            disabled={count === minCount}*/}
-            {/*    />*/}
-            {/*</div>*/}
         </div>
 
     );

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import style from './Counter.module.css'
 import Button from './Button';
 import {Settings} from './Settings';
@@ -9,7 +9,6 @@ type SuperCounterPropsType = {
     maxCount: number
     minCount: number
     error: string | null
-
     showSet: boolean
     setShowSet: (value: boolean) => void
     incHandler: () => void
@@ -24,6 +23,7 @@ const SuperCounter = (props: SuperCounterPropsType) => {
     return (
 
         <>
+            {/*если showSet по умолчанию(false) !showSet - значит показать Count, иначе -показать Set */}
             {!props.showSet
                 ? <div className={style.container}>
                     <div className={props.count < props.maxCount ? style.count : style.countRed}>
@@ -50,6 +50,7 @@ const SuperCounter = (props: SuperCounterPropsType) => {
                           changeMaxCount={props.changeMaxCount}
                           setCounter={props.setCounter}/>
             }
+
         </>
 
     );
