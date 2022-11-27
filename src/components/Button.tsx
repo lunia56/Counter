@@ -8,7 +8,6 @@ type ButtonType = {
 }
 
 function Button(props: ButtonType) {
-    console.log(props.disabled)
     const onClickHandler = () => {
         props.callBack()
     }

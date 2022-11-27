@@ -1,54 +1,80 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import style from './Counter.module.css'
 import Button from './Button';
 import {Settings} from './Settings';
+import {
+    counterType,
+    IncrementCountAC, ResetCountAC,
+    SetErrorAC,
+    SetMaxCountAC,
+    SetMinCountAC,
+    ShowCountOrSetAC
+} from "../redux/counterReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "../store";
 
 
 type SuperCounterPropsType = {
-    count: number
-    maxCount: number
-    minCount: number
-    error: string | null
-    showSet: boolean
-    setShowSet: (value: boolean) => void
-    incHandler: () => void
-    resetHandler: () => void
-    setCounter: () => void
-    changeMinCount: (value: number) => void
-    changeMaxCount: (value: number) => void
+    // id: string
+    // count: number
+    // maxCount: number
+    // minCount: number
+    // error: string | null
+    // showSet: boolean
+    // setShowSet: (value: boolean, counterId: string) => void
+    // incHandler: (counterId: string) => void
+    // resetHandler: (counterId: string) => void
+    // setCounter: (counterId: string) => void
+    // changeMinCount: (value: number, counterId: string) => void
+    // changeMaxCount: (value: number, counterId: string) => void
 }
 const SuperCounter = (props: SuperCounterPropsType) => {
+    const dispatch = useDispatch();
+    const counter = useSelector<AppRootStateType, counterType>(state => state.counter)
 
+    const setShowSet=(showSet:boolean)=>{
+        dispatch(ShowCountOrSetAC(showSet))
+    }
 
+    const incCount = () => {
+        counter.count < counter.maxCount && dispatch(IncrementCountAC(counter.count))
+    }
+
+    const resetCount = () => {
+        counter.count > counter.minCount && dispatch(ResetCountAC(counter.minCount))
+    }
     return (
 
         <>
             {/*если showSet по умолчанию(false) !showSet - значит показать Count, иначе -показать Set */}
-            {!props.showSet
+            {!counter.showSet
                 ? <div className={style.container}>
-                    <div className={props.count < props.maxCount ? style.count : style.countRed}>
-                        {!props.error ? props.count :
-                            <span className={style.spanStyleError}>{props.error}</span>}
+                    <div className={counter.count < counter.maxCount ? style.count : style.countRed}>
+                        {!counter.error ? counter.count :
+                            <span className={style.spanStyleError}>{counter.error}</span>}
                     </div>
                     <div className={style.buttons}>
                         <Button name={'inc'}
-                                callBack={props.incHandler}
-                                disabled={props.count >= props.maxCount}/>
+                                callBack={incCount}
+                                disabled={counter.count >= counter.maxCount}/>
 
                         <Button name={'reset'}
-                                callBack={props.resetHandler}
-                                disabled={props.count === props.minCount}/>
+                                callBack={resetCount}
+                                disabled={counter.count === counter.minCount}/>
                         <Button name={'set'}
-                                callBack={() => props.setShowSet(!props.showSet)}/>
+                                callBack={() => setShowSet(counter.showSet)}/>
                     </div>
                 </div>
                 :
-                <Settings error={props.error}
-                          maxCount={props.maxCount}
-                          minCount={props.minCount}
-                          changeMinCount={props.changeMinCount}
-                          changeMaxCount={props.changeMaxCount}
-                          setCounter={props.setCounter}/>
+                <Settings
+                    // id={props.id}
+                    //       error={props.error}
+                    //       maxCount={props.maxCount}
+                    //       minCount={props.minCount}
+                    //       changeMinCount={props.changeMinCount}
+                    //       changeMaxCount={props.changeMaxCount}
+                    //       setCounter={props.setCounter}
+                />
             }
 
         </>
