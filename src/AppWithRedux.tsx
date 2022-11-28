@@ -7,21 +7,22 @@ import SuperCounter from './components/SuperCounter';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
 import {
+    AddCounterAC,
     counterType,
     IncrementCountAC,
     ResetCountAC, SetErrorAC, SetMaxCountAC,
     SetMinCountAC,
     ShowCountOrSetAC
 } from "./redux/counterReducer";
+import Button from "./components/Button";
 
 
 function AppWithRedux() {
 
     const dispatch = useDispatch();
-    const counter = useSelector<AppRootStateType, counterType>(state => state.counter)
+    const counter = useSelector<AppRootStateType, Array<counterType>>(state => state.counter)
 
 
-    console.log("counter", counter)
     /*Максимальное значение счетчика. Начальное значение берется из localStorage*/
     // let [maxCount, setMaxCount] = useState<number>(5)
 
@@ -118,46 +119,18 @@ function AppWithRedux() {
         // dispatch(SetMinCountAC(value))
         // dispatch(ShowCountOrSetAC(false))
     // }
+const addCounter =()=>{
+    dispatch(AddCounterAC())
+}
 
+const itemCounter = counter.map(counter=> <SuperCounter key={counter.id} counter={counter}/>)
 
     return (
         <div className="App">
             <div className={style.containerCount}>
-                <Settings
-                    // id={counter1.id}
-                    //       setCounter={setCounter}
-                    //       error={counter1.error}
-                    //       maxCount={counter1.maxCount}
-                    //       minCount={counter1.minCount}
-                    //       changeMinCount={changeMinCount}
-                    //       changeMaxCount={changeMaxCount}
-                />
-
-                <Counter
-                    // id={counter1.id}
-                    //      count={counter1.count}
-                    //      incHandler={incCount}
-                    //      resetHandler={resetCount}
-                    //      maxCount={counter1.maxCount}
-                    //      minCount={counter1.minCount}
-                    //      error={counter1.error}
-                    //      showCount={counter1.showCount}
-                />
+                <Button  name={"Добавить счетчик"} callBack={addCounter}/>
             </div>
-            <SuperCounter
-                // id={counter1.id}
-                //           count={counter1.count}
-                //           maxCount={counter1.maxCount}
-                //           minCount={counter1.minCount}
-                //           error={counter1.error}
-                //           showSet={counter1.showSet}
-                //           setShowSet={setShowSet}
-                //           incHandler={incCount}
-                //           resetHandler={resetCount}
-                //           setCounter={setCounter}
-                //           changeMinCount={changeMinCount}
-                //           changeMaxCount={changeMaxCount}
-            />
+            {itemCounter}
 
         </div>
 

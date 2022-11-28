@@ -3,6 +3,7 @@ import style from './Counter.module.css'
 import Button from './Button';
 import {Settings} from './Settings';
 import {
+    counterReducer,
     counterType,
     IncrementCountAC, ResetCountAC,
     SetErrorAC,
@@ -15,7 +16,7 @@ import {AppRootStateType} from "../store";
 
 
 type SuperCounterPropsType = {
-    // id: string
+    counter: counterType
     // count: number
     // maxCount: number
     // minCount: number
@@ -28,20 +29,18 @@ type SuperCounterPropsType = {
     // changeMinCount: (value: number, counterId: string) => void
     // changeMaxCount: (value: number, counterId: string) => void
 }
-const SuperCounter = (props: SuperCounterPropsType) => {
+const SuperCounter = ({counter} :SuperCounterPropsType) => {
     const dispatch = useDispatch();
-    const counter = useSelector<AppRootStateType, counterType>(state => state.counter)
-
     const setShowSet=(showSet:boolean)=>{
-        dispatch(ShowCountOrSetAC(showSet))
+        dispatch(ShowCountOrSetAC(showSet,counter.id))
     }
 
     const incCount = () => {
-        counter.count < counter.maxCount && dispatch(IncrementCountAC(counter.count))
+        counter.count < counter.maxCount && dispatch(IncrementCountAC(counter.count,counter.id))
     }
 
     const resetCount = () => {
-        counter.count > counter.minCount && dispatch(ResetCountAC(counter.minCount))
+        counter.count > counter.minCount && dispatch(ResetCountAC(counter.minCount,counter.id))
     }
     return (
 
@@ -67,6 +66,7 @@ const SuperCounter = (props: SuperCounterPropsType) => {
                 </div>
                 :
                 <Settings
+                    counter={counter}
                     // id={props.id}
                     //       error={props.error}
                     //       maxCount={props.maxCount}
